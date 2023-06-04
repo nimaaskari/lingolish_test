@@ -10,7 +10,7 @@ function GuessedWords(props) {
           <div className="guess-box" key={index}>
             {guess.word.map((letter) => {
               return (
-                <div className="input-box-placeholder" key={letter}>
+                <div className="guess-box-placeholder" key={letter}>
                   <p>{letter}</p>
                 </div>
               );
@@ -23,7 +23,12 @@ function GuessedWords(props) {
 }
 
 GuessedWords.propTypes = {
-  guesses: PropTypes.object,
+  guesses: PropTypes.arrayOf(
+    PropTypes.shape({
+      user: PropTypes.string,
+      word: PropTypes.arrayOf(PropTypes.string),
+    })
+  ),
 };
 
 export default GuessedWords;
