@@ -4,9 +4,9 @@ import "./InputBox.scss";
 function InputBox(props) {
   return (
     <div className="input-box">
-      {props.inputLetters.map((inputLetter) => {
+      {props.inputLetters.map((inputLetter, index) => {
         return (
-          <div className="input-box-placeholder" key={inputLetter}>
+          <div className="input-box-placeholder" key={inputLetter + index}>
             <p>{inputLetter}</p>
           </div>
         );
@@ -16,7 +16,7 @@ function InputBox(props) {
 }
 
 InputBox.propTypes = {
-  inputLetters: PropTypes.object,
+  inputLetters: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default InputBox;

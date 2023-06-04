@@ -8,9 +8,9 @@ function GuessedWords(props) {
       {props.guesses.map((guess, index) => {
         return (
           <div className="guess-box" key={index}>
-            {guess.word.map((letter) => {
+            {guess.word.map((letter, i) => {
               return (
-                <div className="guess-box-placeholder" key={letter}>
+                <div className="guess-box-placeholder" key={letter + i}>
                   <p>{letter}</p>
                 </div>
               );
