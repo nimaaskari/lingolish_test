@@ -14,5 +14,8 @@
     @extend .key;
     background: $white;
     box-shadow: none;
+    p {
+      color: $black;
+    }
   }
 }

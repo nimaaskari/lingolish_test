@@ -1,31 +1,31 @@
 import "./Key.scss";
 import { PropTypes } from "prop-types";
 
-function Key(props) {
-  if (props.mode === "green") {
+function Key({ mode, letter, ...rest }) {
+  if (mode === "green") {
     return (
-      <div className="key key-green">
-        <p>{props.letter}</p>
+      <div {...rest} className="key key-green">
+        <p>{letter}</p>
       </div>
     );
   }
-  if (props.mode === "yellow") {
+  if (mode === "yellow") {
     return (
-      <div className="key key-yellow">
-        <p>{props.letter}</p>
+      <div {...rest} className="key key-yellow">
+        <p>{letter}</p>
       </div>
     );
   }
-  if (props.mode === "gray") {
+  if (mode === "gray") {
     return (
-      <div className="key key-gray">
-        <p>{props.letter}</p>
+      <div {...rest} className="key key-gray">
+        <p>{letter}</p>
       </div>
     );
   }
   return (
-    <div className="key key-neutral">
-      <p>{props.letter}</p>
+    <div {...rest} className="key key-neutral">
+      <p>{letter}</p>
     </div>
   );
 }

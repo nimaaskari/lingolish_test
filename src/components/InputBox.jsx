@@ -1,10 +1,10 @@
 import { PropTypes } from "prop-types";
 import "./InputBox.scss";
 
-function InputBox(props) {
+function InputBox({ inputLetters }) {
   return (
     <div className="input-box">
-      {props.inputLetters.map((inputLetter, index) => {
+      {inputLetters.map((inputLetter, index) => {
         return (
           <div className="input-box-placeholder" key={inputLetter + index}>
             <p>{inputLetter}</p>

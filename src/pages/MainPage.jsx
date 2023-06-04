@@ -10,6 +10,9 @@ function MainPage() {
   const [difficulty, setDifficulty] = useState("easy");
   const [playing, setPlaying] = useState(false);
   const [player, setPlayer] = useState("user");
+  const [userInput, setUserInput] = useState(["", "", "", "", ""]);
+  const [inputIndex, setInputIndex] = useState(0);
+  const [countDown, setCountDown] = useState(10);
 
   function difficultyHandler(diff) {
     setDifficulty(diff);
@@ -23,6 +26,33 @@ function MainPage() {
     setPlayer(player);
   }
 
+  function countDownHandler(count) {
+    setCountDown(count);
+  }
+
+  function userInputHandler({ letter }, index) {
+    console.log(player);
+    let tempInput = userInput;
+    if (index < 5) {
+      tempInput[index] = letter;
+      setUserInput(tempInput);
+    }
+    if (index === 4) {
+      if (player === "user") {
+        setPlayer("computer");
+      } else if (player === "computer") {
+        setPlayer("user");
+      }
+      setUserInput(["", "", "", "", ""]);
+      // countDownHandler(10);
+      // setInputIndex(0);
+    }
+  }
+
+  function inputIndexHandler(index) {
+    setInputIndex(index);
+  }
+
   return (
     <div className="MainPage">
       <StartMenu
@@ -33,13 +63,19 @@ function MainPage() {
       <GuessedWords
         guesses={[{ user: "player", word: ["", "", "", "", ""] }]}
       />
-      <InputBox inputLetters={["", "", "", "", ""]} />
+      <InputBox inputLetters={userInput} />
       <CountDown
         currentPlayer={player}
         changePlayer={playerHandler}
         isPlaying={playing}
+        countDown={countDown}
+        countDownHandler={countDownHandler}
       />
-      <KeyBoard />
+      <KeyBoard
+        inputHandler={userInputHandler}
+        inputIndex={inputIndex}
+        inputIndexHandler={inputIndexHandler}
+      />
     </div>
   );
 }
