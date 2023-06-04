@@ -3,6 +3,7 @@
 import "./MainPage.scss";
 import KeyBoard from "../components/KeyBoard";
 import GameHeader from "../components/GameHeader";
+import InputBox from "../components/InputBox";
 
 // const wordsArray = words.split(",");
 
@@ -11,6 +12,7 @@ function MainPage() {
   return (
     <div className="MainPage">
       <GameHeader />
+      <InputBox inputLetters={["", "", "", "", ""]} />
       <KeyBoard />
     </div>
   );

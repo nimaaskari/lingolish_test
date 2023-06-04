@@ -3,7 +3,7 @@ import "./GameHeader.scss";
 function GameHeader() {
   return (
     <div className="game-header">
-      <h1>Death match mode</h1>
+      <h3>Death match mode</h3>
       <div className="difficulty">
         <p>Difficulty</p>
         <button className="" id="easy">
