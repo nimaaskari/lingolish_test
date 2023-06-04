@@ -13,5 +13,6 @@
   .input-box-placeholder {
     @extend .key;
     background: $white;
+    box-shadow: none;
   }
 }
