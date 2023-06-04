@@ -1,0 +1,24 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-image: url(../src/assets/main_background.jpg);
+  background-color: #006d52;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+// colors
+
+$light-gray: #aaaaaa;

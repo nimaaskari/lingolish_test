@@ -1,0 +1,10 @@
+@import "../index.scss";
+
+.MainPage {
+  width: 500px;
+  height: 90vh;
+  //   background: #ff7700;
+  border: 3px solid $light-gray;
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+}
