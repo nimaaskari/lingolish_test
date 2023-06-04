@@ -7,21 +7,26 @@ import GuessedWords from "../components/GuessedWords";
 
 function MainPage() {
   const [difficulty, setDifficulty] = useState("easy");
+  const [playing, setPlaying] = useState("false");
 
-  function handleDifficulty(diff) {
+  function difficultyHandler(diff) {
     setDifficulty(diff);
   }
+
+  function playingHandler(play) {
+    setPlaying(play);
+  }
+
   return (
     <div className="MainPage">
-      <StartMenu difficulty={difficulty} changeDifficulty={handleDifficulty} />
+      {console.log(playing)}
+      <StartMenu
+        difficulty={difficulty}
+        changeDifficulty={difficultyHandler}
+        playingHandler={playingHandler}
+      />
       <GuessedWords
-        guesses={[
-          { user: "player", word: ["", "", "", "", ""] },
-          { user: "player", word: ["", "", "", "", ""] },
-          { user: "player", word: ["", "", "", "", ""] },
-          { user: "player", word: ["", "", "", "", ""] },
-          { user: "player", word: ["", "", "", "", ""] },
-        ]}
+        guesses={[{ user: "player", word: ["", "", "", "", ""] }]}
       />
       <InputBox inputLetters={["", "", "", "", ""]} />
       <KeyBoard />

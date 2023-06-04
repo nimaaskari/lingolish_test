@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import "./StartMenu.scss";
+import { useState } from "react";
 
 function StartMenu(props) {
+  const [show, setShow] = useState(true);
   function difficultyButtons(diff) {
     if (diff === "easy") {
       return (
@@ -106,18 +108,33 @@ function StartMenu(props) {
       );
     }
   }
+
+  function startHandler() {
+    props.playingHandler(true);
+    setShow(!show);
+  }
+
   return (
-    <div className="start-menu">
-      <h3>Death match mode</h3>
-      {difficultyButtons(props.difficulty)}
-      <button id="start">Start</button>
-    </div>
+    <>
+      {show ? (
+        <div className="start-menu">
+          <h3>Death match mode</h3>
+          {difficultyButtons(props.difficulty)}
+          <button id="start" onClick={() => startHandler()}>
+            Start
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 
 StartMenu.propTypes = {
   difficulty: PropTypes.string,
   changeDifficulty: PropTypes.func,
+  playingHandler: PropTypes.func,
 };
 
 export default StartMenu;
