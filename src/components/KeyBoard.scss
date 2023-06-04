@@ -1,4 +1,5 @@
 @import "../index.scss";
+@import "./Key.scss";
 
 .keyboard {
   width: 100%;
@@ -6,4 +7,23 @@
   backdrop-filter: blur(16px);
   border: 3px solid $light-gray;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.keyboard-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  gap: 5px;
+}
+
+.backspace {
+  @extend .key;
+  @extend .key-neutral;
+  img {
+    width: 75%;
+  }
 }

@@ -1,0 +1,39 @@
+@import "../index.scss";
+
+.key {
+  width: 40px;
+  height: 45px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 3px 3px 3px $dark-gray;
+
+  p {
+    color: $white;
+    font-family: "CandyBeans";
+    font-size: 36px;
+    margin: 0;
+  }
+}
+
+.key-neutral {
+  background: $white;
+
+  p {
+    color: $black;
+  }
+}
+
+.key-green {
+  background: $green;
+}
+
+.key-yellow {
+  background: $yellow;
+}
+
+.key-gray {
+  background: $dark-gray;
+}
