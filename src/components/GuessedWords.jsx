@@ -2,15 +2,18 @@ import { PropTypes } from "prop-types";
 
 import "./GuessedWords.scss";
 
-function GuessedWords(props) {
+function GuessedWords({ guesses }) {
   return (
     <div className="guessed-words">
-      {props.guesses.map((guess, index) => {
+      {guesses.map((guess, index) => {
         return (
-          <div className="guess-box" key={index}>
+          <div className={`guess-box `} key={index}>
             {guess.word.map((letter, i) => {
               return (
-                <div className="guess-box-placeholder" key={letter + i}>
+                <div
+                  className={`guess-box-placeholder key-${guess.compareResult[i]}`}
+                  key={letter + i}
+                >
                   <p>{letter}</p>
                 </div>
               );
@@ -27,6 +30,7 @@ GuessedWords.propTypes = {
     PropTypes.shape({
       user: PropTypes.string,
       word: PropTypes.arrayOf(PropTypes.string),
+      compareResult: PropTypes.arrayOf(PropTypes.string),
     })
   ),
 };

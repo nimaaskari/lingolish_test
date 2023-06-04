@@ -1,5 +1,6 @@
 @import "../index.scss";
 @import "./InputBox.scss";
+
 .guessed-words {
   width: 250px;
   flex-grow: 1;
@@ -12,6 +13,18 @@
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
+
+  .key-green {
+    background: $green;
+  }
+
+  .key-yellow {
+    background: $yellow;
+  }
+
+  .key-gray {
+    background: $dark-gray;
+  }
 }
 
 .guess-box {

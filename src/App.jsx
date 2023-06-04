@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
+import { words } from "./data";
 import MainPage from "./pages/MainPage";
 import "./App.css";
 
 function App() {
-  return <MainPage />;
+  const [tragetWord, setTargetWord] = useState();
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * words.length) + 1;
+    setTargetWord(words[randomIndex]);
+  }, []);
+  return <MainPage target={tragetWord} />;
 }
 
 export default App;
