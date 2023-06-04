@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { initialKeys } from "../data";
 import Key from "./Key";
 import "./KeyBoard.scss";
 import backspaceIcon from "../assets/icons/backspace_icon.svg";
 
 function KeyBoard() {
   const [keys, setKeys] = useState(initialKeys);
-
-  useEffect(() => {
-    setKeys(initialKeys);
-  }, []);
 
   return (
     <div className="keyboard">
@@ -39,112 +36,5 @@ function KeyBoard() {
     </div>
   );
 }
-
-const initialKeys = [
-  {
-    letter: "Q",
-    mode: "neutral",
-  },
-  {
-    letter: "W",
-    mode: "neutral",
-  },
-  {
-    letter: "E",
-    mode: "neutral",
-  },
-  {
-    letter: "R",
-    mode: "neutral",
-  },
-  {
-    letter: "T",
-    mode: "neutral",
-  },
-  {
-    letter: "Y",
-    mode: "neutral",
-  },
-  {
-    letter: "U",
-    mode: "neutral",
-  },
-  {
-    letter: "I",
-    mode: "neutral",
-  },
-  {
-    letter: "O",
-    mode: "neutral",
-  },
-  {
-    letter: "P",
-    mode: "neutral",
-  },
-  {
-    letter: "A",
-    mode: "neutral",
-  },
-  {
-    letter: "S",
-    mode: "neutral",
-  },
-  {
-    letter: "D",
-    mode: "neutral",
-  },
-  {
-    letter: "F",
-    mode: "neutral",
-  },
-  {
-    letter: "G",
-    mode: "neutral",
-  },
-  {
-    letter: "H",
-    mode: "neutral",
-  },
-  {
-    letter: "J",
-    mode: "neutral",
-  },
-  {
-    letter: "K",
-    mode: "neutral",
-  },
-  {
-    letter: "L",
-    mode: "neutral",
-  },
-  {
-    letter: "Z",
-    mode: "neutral",
-  },
-  {
-    letter: "X",
-    mode: "neutral",
-  },
-  {
-    letter: "C",
-    mode: "neutral",
-  },
-  {
-    letter: "V",
-    mode: "neutral",
-  },
-  {
-    letter: "B",
-    mode: "neutral",
-  },
-  {
-    letter: "N",
-    mode: "neutral",
-  },
-  {
-    letter: "M",
-    mode: "neutral",
-  },
-];
 
 export default KeyBoard;
