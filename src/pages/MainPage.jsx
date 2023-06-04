@@ -1,18 +1,15 @@
-// import { useState } from "react";
-// import { words } from "./data";
+import { useState } from "react";
 import "./MainPage.scss";
+import StartMenu from "../components/StartMenu";
 import KeyBoard from "../components/KeyBoard";
-import GameHeader from "../components/GameHeader";
 import InputBox from "../components/InputBox";
 import GuessedWords from "../components/GuessedWords";
 
-// const wordsArray = words.split(",");
-
 function MainPage() {
-  // const [validWords, setValidWords] = useState(wordsArray);
+  const [difficulty, setDifficulty] = useState("easy");
   return (
     <div className="MainPage">
-      <GameHeader />
+      <StartMenu difficulty={difficulty} />
       <GuessedWords
         guesses={[
           { user: "player", word: ["", "", "", "", ""] },
