@@ -9,11 +9,15 @@
   src: url("./assets/fonts/Candy\ Beans.otf");
 }
 
-body {
+* {
   margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "CandyBeans";
   width: 100vw;
   height: 100vh;
-  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -33,3 +37,4 @@ $dark-gray: #333;
 $black: #111;
 $green: #00cc00;
 $yellow: #cccc00;
+$pink-red: #ff3333;

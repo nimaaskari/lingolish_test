@@ -2,13 +2,13 @@
 
 .key {
   width: 40px;
-  height: 40px;
+  height: 35px;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 3px 3px 3px $dark-gray;
+  box-shadow: 0px 3px 3px 3px $black;
 
   p {
     color: $white;
