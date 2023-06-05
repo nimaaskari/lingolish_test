@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { words } from "../data";
+import { initialKeys } from "../data";
+
 import { PropTypes } from "prop-types";
 import "./MainPage.scss";
 import StartMenu from "../components/StartMenu";
@@ -7,12 +10,12 @@ import KeyBoard from "../components/KeyBoard";
 import InputBox from "../components/InputBox";
 import GuessedWords from "../components/GuessedWords";
 import CountDown from "../components/CountDown";
-import { words } from "../data";
 
 function MainPage({ target }) {
   const [difficulty, setDifficulty] = useState("easy");
   const [playing, setPlaying] = useState(false);
   const [player, setPlayer] = useState("user");
+  const [keys, setKeys] = useState(initialKeys);
   const [userInput, setUserInput] = useState([]);
   const [inputIndex, setInputIndex] = useState(0);
   const [countDown, setCountDown] = useState(10);
@@ -67,19 +70,39 @@ function MainPage({ target }) {
     }
     const targetArray = target.split("");
     const compareResult = [];
+    let tempKeys = [...keys];
     for (let i = 0; i < userGuess.length; i++) {
       let temp = "";
       for (let j = 0; j < targetArray.length; j++) {
         if (userGuess[i] === targetArray[j] && i === j) {
           temp = "green";
+          for (let k = 0; k < tempKeys.length; k++) {
+            if (tempKeys[k].letter === userGuess[i]) {
+              tempKeys[k].mode = "green";
+            }
+          }
           break;
         } else if (userGuess[i] === targetArray[j]) {
           temp = "yellow";
+          for (let k = 0; k < tempKeys.length; k++) {
+            if (tempKeys[k].letter === userGuess[i]) {
+              tempKeys[k].mode = "yellow";
+            }
+          }
         }
       }
-      if (temp === "") temp = "gray";
+      if (temp === "") {
+        temp = "gray";
+        for (let k = 0; k < tempKeys.length; k++) {
+          if (tempKeys[k].letter === userGuess[i]) {
+            tempKeys[k].mode = "gray";
+          }
+        }
+      }
       compareResult.push(temp);
     }
+
+    setKeys(tempKeys);
     console.log(compareResult);
     setGuesses([
       ...guesses,
@@ -336,8 +359,10 @@ function MainPage({ target }) {
   useEffect(() => {
     if (winner === "user") {
       alert(`You Win! the secret word was: ${target}`);
+      setPlaying(false);
     } else if (winner === "computer") {
       alert(`You Lost! the secret word was: ${target}`);
+      setPlaying(false);
     }
 
     if (playing === true) {
@@ -360,6 +385,7 @@ function MainPage({ target }) {
         inputIndex={inputIndex}
         inputIndexHandler={inputIndexHandler}
         inputRemove={userInputRemoveHandler}
+        keys={keys}
       />
     </div>
   );

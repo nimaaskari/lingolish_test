@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { initialKeys } from "../data";
 import { PropTypes } from "prop-types";
 import Key from "./Key";
 import "./KeyBoard.scss";
@@ -10,9 +8,8 @@ function KeyBoard({
   inputIndex,
   inputIndexHandler,
   inputRemove,
+  keys,
 }) {
-  const [keys, setKeys] = useState(initialKeys);
-
   return (
     <div className="keyboard">
       <div className="keyboard-row">
@@ -78,6 +75,7 @@ KeyBoard.propTypes = {
   inputIndex: PropTypes.number,
   inputIndexHandler: PropTypes.func,
   inputRemove: PropTypes.func,
+  keys: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default KeyBoard;
