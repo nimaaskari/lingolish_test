@@ -51,8 +51,6 @@ function MainPage({ target }) {
 
   function userGuessChecker(target, userGuess) {
     const targetArray = target.split("");
-    console.log(targetArray);
-    console.log(userGuess);
     const compareResult = [];
     for (let i = 0; i < userGuess.length; i++) {
       let temp = "";
@@ -67,7 +65,6 @@ function MainPage({ target }) {
         if (temp === "") temp = "gray";
         compareResult.push(temp);
       }
-      console.log(compareResult);
 
       setGuesses([
         ...guesses,
@@ -97,7 +94,7 @@ function MainPage({ target }) {
       computerUsedLetters.greenLetters.length === 0 &&
       computerUsedLetters.yellowLetters.length === 0
     ) {
-      const randomIndex = Math.floor(Math.random() * words.length) + 1;
+      const randomIndex = Math.floor(Math.random() * words.length);
       const computerFirstGuess = wordsArray[randomIndex];
       compare(computerFirstGuess, target);
       setGuesses([
@@ -117,6 +114,7 @@ function MainPage({ target }) {
     if (difficulty === "easy") {
       // in this difficulty computer only checks if the word gray(irrelevant) characters or not.
       let validWords = [];
+
       for (let i = 0; i < wordsArray.length; i++) {
         let valid = true;
         for (let j = 0; j < wordsArray[i].split("").length; j++) {
@@ -130,11 +128,13 @@ function MainPage({ target }) {
           validWords.push(wordsArray[i]);
         }
       }
-      console.log(target);
-      console.log(validWords);
-      console.log(computerUsedLetters);
-      const randomIndex = Math.floor(Math.random() * validWords.length) + 1;
+      console.log(validWords.length);
+      const randomIndex = Math.floor(Math.random() * validWords.length);
+
       const easyGuess = validWords[randomIndex];
+      console.log(target);
+      console.log(easyGuess);
+      console.log(validWords);
       compare(easyGuess, target);
       setGuesses([
         ...guesses,
@@ -161,20 +161,25 @@ function MainPage({ target }) {
     const targetWord = targetWordStr.split("");
 
     for (let i = 0; i < guess.length; i++) {
+      if (
+        !targetWord.includes(guess[i]) &&
+        !tempComputerUsedLetters.grayLetters.includes(guess[i])
+      ) {
+        tempComputerUsedLetters.grayLetters.push(guess[i]);
+        break;
+      }
       for (let j = 0; j < targetWord.length; j++) {
         if (
           guess[i] === targetWord[j] &&
           i === j &&
           !tempComputerUsedLetters.greenLetters.includes(guess[i])
         ) {
-          tempComputerUsedLetters.greenLetters.push(guess[i]);
+          tempComputerUsedLetters.greenLetters[i] = guess[i];
         } else if (
           guess[i] === targetWord[j] &&
           !tempComputerUsedLetters.yellowLetters.includes(guess[i])
         ) {
           tempComputerUsedLetters.yellowLetters.push(guess[i]);
-        } else if (!tempComputerUsedLetters.grayLetters.includes(guess[i])) {
-          tempComputerUsedLetters.grayLetters.push(guess[i]);
         }
       }
     }
@@ -194,7 +199,6 @@ function MainPage({ target }) {
 
   return (
     <div className="MainPage">
-      {mainGame()}
       <StartMenu
         difficulty={difficulty}
         changeDifficulty={difficultyHandler}
