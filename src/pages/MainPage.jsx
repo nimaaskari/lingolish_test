@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-
+import { PropTypes } from "prop-types";
 import { words } from "../data";
 import { initialKeys } from "../data";
-
-import { PropTypes } from "prop-types";
 import "./MainPage.scss";
 import StartMenu from "../components/StartMenu";
 import KeyBoard from "../components/KeyBoard";
@@ -26,14 +24,6 @@ function MainPage({ target }) {
   });
   const [winner, setWinner] = useState("");
 
-  function difficultyHandler(diff) {
-    setDifficulty(diff);
-  }
-
-  function playingHandler(play) {
-    setPlaying(play);
-  }
-
   function userInputRemoveHandler() {
     let tempInput = userInput;
     let tempInputTrim = tempInput.join("");
@@ -55,10 +45,6 @@ function MainPage({ target }) {
     if (index === 4) {
       userGuessChecker(target, userInput);
     }
-  }
-
-  function inputIndexHandler(index) {
-    setInputIndex(index);
   }
 
   function userGuessChecker(target, userGuess) {
@@ -111,13 +97,6 @@ function MainPage({ target }) {
     setPlayer("computer");
   }
 
-  function mainGame() {
-    // countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
-    if (player === "computer") {
-      computerGuess(difficulty, words);
-    }
-  }
-
   function computerGuess(difficulty = "easy", wordsArray) {
     setTimeout(() => {
       if (
@@ -143,7 +122,7 @@ function MainPage({ target }) {
         return;
       }
       if (difficulty === "easy") {
-        // in this difficulty computer only checks if the word gray(irrelevant) characters or not.
+        // in this difficulty computer only checks if the word have gray(irrelevant) characters or not.
         let validWords = grayValidator(wordsArray);
         const randomIndex = Math.floor(Math.random() * validWords.length);
         const easyGuess = validWords[randomIndex];
@@ -183,20 +162,12 @@ function MainPage({ target }) {
         return;
       }
       if (difficulty === "hard") {
-        // in this difficulty computer check for not having gray characters and having yellow characters and green characters in the.
+        // in this difficulty computer check for not having gray characters and having yellow characters and green characters in the right place.
         let validWords = greenValidator(
           yellowValidator(grayValidator(wordsArray))
         );
-
         const randomIndex = Math.floor(Math.random() * validWords.length);
         const hardGuess = validWords[randomIndex];
-
-        console.log(target);
-        console.log(hardGuess);
-        console.log(computerUsedLetters.greenLetters);
-
-        console.log(computerUsedLetters.yellowLetters);
-        console.log(validWords.length);
         compare(hardGuess, target);
         setGuesses([
           ...guesses,
@@ -212,7 +183,7 @@ function MainPage({ target }) {
         setPlayer("user");
         return;
       }
-    }, 3000);
+    }, 3000); // a delay for more pleasent experience
   }
 
   function grayValidator(allWords) {
@@ -276,6 +247,7 @@ function MainPage({ target }) {
     }
     return validatedWords;
   }
+
   function compare(guessStr, targetWordStr) {
     if (guessStr === targetWordStr) {
       setWinner("computer");
@@ -309,6 +281,7 @@ function MainPage({ target }) {
     }
     setComputerUsedLetters(tempComputerUsedLetters);
   }
+
   useEffect(() => {
     if (winner === "user") {
       alert(`You Win! the secret word was: ${target}`);
@@ -318,8 +291,8 @@ function MainPage({ target }) {
       setPlaying(false);
     }
 
-    if (playing === true) {
-      mainGame();
+    if (playing === true && player === "computer") {
+      computerGuess(difficulty, words);
     }
   }, [player, playing, winner]);
 
@@ -327,8 +300,8 @@ function MainPage({ target }) {
     <div className="MainPage">
       <StartMenu
         difficulty={difficulty}
-        changeDifficulty={difficultyHandler}
-        playingHandler={playingHandler}
+        changeDifficulty={setDifficulty}
+        playingHandler={setPlaying}
       />
       <GuessedWords guesses={guesses} target={target} />
       <InputBox inputLetters={userInput} />
@@ -336,7 +309,7 @@ function MainPage({ target }) {
       <KeyBoard
         inputHandler={userInputHandler}
         inputIndex={inputIndex}
-        inputIndexHandler={inputIndexHandler}
+        inputIndexHandler={setInputIndex}
         inputRemove={userInputRemoveHandler}
         keys={keys}
       />
