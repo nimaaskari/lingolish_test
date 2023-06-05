@@ -18,7 +18,6 @@ function MainPage({ target }) {
   const [keys, setKeys] = useState(initialKeys);
   const [userInput, setUserInput] = useState([]);
   const [inputIndex, setInputIndex] = useState(0);
-  const [countDown, setCountDown] = useState(10);
   const [guesses, setGuesses] = useState([]);
   const [computerUsedLetters, setComputerUsedLetters] = useState({
     grayLetters: [],
@@ -26,8 +25,6 @@ function MainPage({ target }) {
     yellowLetters: [],
   });
   const [winner, setWinner] = useState("");
-
-  // let timeOutId;
 
   function difficultyHandler(diff) {
     setDifficulty(diff);
@@ -111,7 +108,7 @@ function MainPage({ target }) {
 
     setUserInput([]);
     setInputIndex(0);
-    setCountDown(0);
+
     setPlayer("computer");
   }
 
@@ -123,204 +120,214 @@ function MainPage({ target }) {
   }
 
   function computerGuess(difficulty = "easy", wordsArray) {
-    if (
-      computerUsedLetters.grayLetters.length === 0 &&
-      computerUsedLetters.greenLetters.length === 0 &&
-      computerUsedLetters.yellowLetters.length === 0
-    ) {
-      const randomIndex = Math.floor(Math.random() * words.length);
-      const computerFirstGuess = wordsArray[randomIndex];
-      compare(computerFirstGuess, target);
-      setGuesses([
-        ...guesses,
-        {
-          player: "computer",
-          word: computerFirstGuess.split(""),
-          compareResult: ["gray", "gray", "gray", "gray", "gray"],
-        },
-      ]);
+    setTimeout(() => {
+      if (
+        computerUsedLetters.grayLetters.length === 0 &&
+        computerUsedLetters.greenLetters.length === 0 &&
+        computerUsedLetters.yellowLetters.length === 0
+      ) {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const computerFirstGuess = wordsArray[randomIndex];
+        compare(computerFirstGuess, target);
+        setGuesses([
+          ...guesses,
+          {
+            player: "computer",
+            word: computerFirstGuess.split(""),
+            compareResult: ["gray", "gray", "gray", "gray", "gray"],
+          },
+        ]);
 
-      setUserInput([]);
-      setInputIndex(0);
-      setPlayer("user");
-      return;
-    }
-    if (difficulty === "easy") {
-      // in this difficulty computer only checks if the word gray(irrelevant) characters or not.
-      let validWords = [];
-
-      for (let i = 0; i < wordsArray.length; i++) {
-        let valid = true;
-        for (let j = 0; j < wordsArray[i].split("").length; j++) {
-          if (
-            computerUsedLetters.grayLetters.includes(wordsArray[i].split("")[j])
-          ) {
-            valid = false;
-          }
-        }
-        if (valid) {
-          validWords.push(wordsArray[i]);
-        }
+        setUserInput([]);
+        setInputIndex(0);
+        setPlayer("user");
+        return;
       }
-      const randomIndex = Math.floor(Math.random() * validWords.length);
+      if (difficulty === "easy") {
+        // in this difficulty computer only checks if the word gray(irrelevant) characters or not.
+        let validWords = [];
 
-      const easyGuess = validWords[randomIndex];
-      compare(easyGuess, target);
-      setGuesses([
-        ...guesses,
-        {
-          player: "computer",
-          word: easyGuess.split(""),
-          compareResult: ["gray", "gray", "gray", "gray", "gray"],
-        },
-      ]);
-
-      setUserInput([]);
-      setInputIndex(0);
-      setPlayer("user");
-      return;
-    }
-    if (difficulty === "medium") {
-      // in this difficulty computer check for not having gray characters and having yellow characters.
-      let validWords = [];
-
-      for (let i = 0; i < wordsArray.length; i++) {
-        let valid = true;
-        for (let j = 0; j < wordsArray[i].split("").length; j++) {
-          if (
-            computerUsedLetters.grayLetters.includes(wordsArray[i].split("")[j])
-          ) {
-            valid = false;
-          }
-        }
-        if (valid) {
-          validWords.push(wordsArray[i]);
-        }
-      }
-
-      let mediumValidWords = [];
-
-      if (computerUsedLetters.yellowLetters.length != 0) {
-        for (let i = 0; i < validWords.length; i++) {
-          for (let j = 0; j < validWords[i].split("").length; j++) {
+        for (let i = 0; i < wordsArray.length; i++) {
+          let valid = true;
+          for (let j = 0; j < wordsArray[i].split("").length; j++) {
             if (
-              computerUsedLetters.yellowLetters.includes(
-                validWords[i].split("")[j]
-              ) &&
-              validWords[i].split("")[j] != computerUsedLetters.yellowLetters[j]
+              computerUsedLetters.grayLetters.includes(
+                wordsArray[i].split("")[j]
+              )
             ) {
-              mediumValidWords.push(validWords[i]);
-              break;
+              valid = false;
             }
           }
-        }
-      } else {
-        mediumValidWords = [...validWords];
-      }
-      const randomIndex = Math.floor(Math.random() * mediumValidWords.length);
-      const mediumGuess = mediumValidWords[randomIndex];
-
-      console.log(target);
-      console.log(mediumGuess);
-      console.log(computerUsedLetters.yellowLetters);
-      console.log(validWords.length);
-      console.log(mediumValidWords.length);
-      compare(mediumGuess, target);
-      setGuesses([
-        ...guesses,
-        {
-          player: "computer",
-          word: mediumGuess.split(""),
-          compareResult: ["gray", "gray", "gray", "gray", "gray"],
-        },
-      ]);
-
-      setUserInput([]);
-      setInputIndex(0);
-      setPlayer("user");
-      return;
-    }
-    if (difficulty === "hard") {
-      // in this difficulty computer check for not having gray characters and having yellow characters and green characters in the.
-      let validWords = [];
-
-      for (let i = 0; i < wordsArray.length; i++) {
-        let valid = true;
-        for (let j = 0; j < wordsArray[i].split("").length; j++) {
-          if (
-            computerUsedLetters.grayLetters.includes(wordsArray[i].split("")[j])
-          ) {
-            valid = false;
+          if (valid) {
+            validWords.push(wordsArray[i]);
           }
         }
-        if (valid) {
-          validWords.push(wordsArray[i]);
-        }
+        const randomIndex = Math.floor(Math.random() * validWords.length);
+
+        const easyGuess = validWords[randomIndex];
+        compare(easyGuess, target);
+        setGuesses([
+          ...guesses,
+          {
+            player: "computer",
+            word: easyGuess.split(""),
+            compareResult: ["gray", "gray", "gray", "gray", "gray"],
+          },
+        ]);
+
+        setUserInput([]);
+        setInputIndex(0);
+        setPlayer("user");
+        return;
       }
+      if (difficulty === "medium") {
+        // in this difficulty computer check for not having gray characters and having yellow characters.
+        let validWords = [];
 
-      let mediumValidWords = [];
-
-      if (computerUsedLetters.yellowLetters.length != 0) {
-        for (let i = 0; i < validWords.length; i++) {
-          for (let j = 0; j < validWords[i].split("").length; j++) {
+        for (let i = 0; i < wordsArray.length; i++) {
+          let valid = true;
+          for (let j = 0; j < wordsArray[i].split("").length; j++) {
             if (
-              computerUsedLetters.yellowLetters.includes(
-                validWords[i].split("")[j]
-              ) &&
-              validWords[i].split("")[j] != computerUsedLetters.yellowLetters[j]
+              computerUsedLetters.grayLetters.includes(
+                wordsArray[i].split("")[j]
+              )
             ) {
-              mediumValidWords.push(validWords[i]);
-              break;
+              valid = false;
             }
           }
-        }
-      } else {
-        mediumValidWords = [...validWords];
-      }
-
-      let hardValidWords = [];
-      if (computerUsedLetters.greenLetters.length != 0) {
-        for (let i = 0; i < mediumValidWords.length; i++) {
-          for (let j = 0; j < mediumValidWords[i].split("").length; j++) {
-            if (
-              computerUsedLetters.greenLetters.includes(
-                mediumValidWords[i].split("")[j]
-              ) &&
-              mediumValidWords[i].split("")[j] ==
-                computerUsedLetters.greenLetters[j]
-            ) {
-              hardValidWords.push(mediumValidWords[i]);
-              break;
-            }
+          if (valid) {
+            validWords.push(wordsArray[i]);
           }
         }
-      } else {
-        hardValidWords = [...mediumValidWords];
+
+        let mediumValidWords = [];
+
+        if (computerUsedLetters.yellowLetters.length != 0) {
+          for (let i = 0; i < validWords.length; i++) {
+            for (let j = 0; j < validWords[i].split("").length; j++) {
+              if (
+                computerUsedLetters.yellowLetters.includes(
+                  validWords[i].split("")[j]
+                ) &&
+                validWords[i].split("")[j] !=
+                  computerUsedLetters.yellowLetters[j]
+              ) {
+                mediumValidWords.push(validWords[i]);
+                break;
+              }
+            }
+          }
+        } else {
+          mediumValidWords = [...validWords];
+        }
+        const randomIndex = Math.floor(Math.random() * mediumValidWords.length);
+        const mediumGuess = mediumValidWords[randomIndex];
+
+        console.log(target);
+        console.log(mediumGuess);
+        console.log(computerUsedLetters.yellowLetters);
+        console.log(validWords.length);
+        console.log(mediumValidWords.length);
+        compare(mediumGuess, target);
+        setGuesses([
+          ...guesses,
+          {
+            player: "computer",
+            word: mediumGuess.split(""),
+            compareResult: ["gray", "gray", "gray", "gray", "gray"],
+          },
+        ]);
+
+        setUserInput([]);
+        setInputIndex(0);
+        setPlayer("user");
+        return;
       }
+      if (difficulty === "hard") {
+        // in this difficulty computer check for not having gray characters and having yellow characters and green characters in the.
+        let validWords = [];
 
-      const randomIndex = Math.floor(Math.random() * hardValidWords.length);
-      const hardGuess = hardValidWords[randomIndex];
+        for (let i = 0; i < wordsArray.length; i++) {
+          let valid = true;
+          for (let j = 0; j < wordsArray[i].split("").length; j++) {
+            if (
+              computerUsedLetters.grayLetters.includes(
+                wordsArray[i].split("")[j]
+              )
+            ) {
+              valid = false;
+            }
+          }
+          if (valid) {
+            validWords.push(wordsArray[i]);
+          }
+        }
 
-      console.log(target);
-      console.log(hardGuess);
-      console.log(computerUsedLetters.greenLetters);
-      console.log(validWords.length);
-      console.log(hardValidWords.length);
-      compare(hardGuess, target);
-      setGuesses([
-        ...guesses,
-        {
-          player: "computer",
-          word: hardGuess.split(""),
-          compareResult: ["gray", "gray", "gray", "gray", "gray"],
-        },
-      ]);
+        let mediumValidWords = [];
 
-      setUserInput([]);
-      setInputIndex(0);
-      setPlayer("user");
-      return;
-    }
+        if (computerUsedLetters.yellowLetters.length != 0) {
+          for (let i = 0; i < validWords.length; i++) {
+            for (let j = 0; j < validWords[i].split("").length; j++) {
+              if (
+                computerUsedLetters.yellowLetters.includes(
+                  validWords[i].split("")[j]
+                ) &&
+                validWords[i].split("")[j] !=
+                  computerUsedLetters.yellowLetters[j]
+              ) {
+                mediumValidWords.push(validWords[i]);
+                break;
+              }
+            }
+          }
+        } else {
+          mediumValidWords = [...validWords];
+        }
+
+        let hardValidWords = [];
+        if (computerUsedLetters.greenLetters.length != 0) {
+          for (let i = 0; i < mediumValidWords.length; i++) {
+            for (let j = 0; j < mediumValidWords[i].split("").length; j++) {
+              if (
+                computerUsedLetters.greenLetters.includes(
+                  mediumValidWords[i].split("")[j]
+                ) &&
+                mediumValidWords[i].split("")[j] ==
+                  computerUsedLetters.greenLetters[j]
+              ) {
+                hardValidWords.push(mediumValidWords[i]);
+                break;
+              }
+            }
+          }
+        } else {
+          hardValidWords = [...mediumValidWords];
+        }
+
+        const randomIndex = Math.floor(Math.random() * hardValidWords.length);
+        const hardGuess = hardValidWords[randomIndex];
+
+        console.log(target);
+        console.log(hardGuess);
+        console.log(computerUsedLetters.greenLetters);
+        console.log(validWords.length);
+        console.log(hardValidWords.length);
+        compare(hardGuess, target);
+        setGuesses([
+          ...guesses,
+          {
+            player: "computer",
+            word: hardGuess.split(""),
+            compareResult: ["gray", "gray", "gray", "gray", "gray"],
+          },
+        ]);
+
+        setUserInput([]);
+        setInputIndex(0);
+        setPlayer("user");
+        return;
+      }
+    }, 3000);
   }
 
   function compare(guessStr, targetWordStr) {
@@ -368,7 +375,7 @@ function MainPage({ target }) {
     if (playing === true) {
       mainGame();
     }
-  }, [countDown, player, playing, winner]);
+  }, [player, playing, winner]);
 
   return (
     <div className="MainPage">
@@ -379,7 +386,7 @@ function MainPage({ target }) {
       />
       <GuessedWords guesses={guesses} target={target} />
       <InputBox inputLetters={userInput} />
-      <CountDown currentPlayer={player} countDown={countDown} />
+      <CountDown currentPlayer={player} />
       <KeyBoard
         inputHandler={userInputHandler}
         inputIndex={inputIndex}
