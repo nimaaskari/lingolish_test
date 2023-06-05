@@ -205,6 +205,87 @@ function MainPage({ target }) {
       setPlayer("user");
       return;
     }
+    if (difficulty === "hard") {
+      // in this difficulty computer check for not having gray characters and having yellow characters and green characters in the.
+      let validWords = [];
+
+      for (let i = 0; i < wordsArray.length; i++) {
+        let valid = true;
+        for (let j = 0; j < wordsArray[i].split("").length; j++) {
+          if (
+            computerUsedLetters.grayLetters.includes(wordsArray[i].split("")[j])
+          ) {
+            valid = false;
+          }
+        }
+        if (valid) {
+          validWords.push(wordsArray[i]);
+        }
+      }
+
+      let mediumValidWords = [];
+
+      if (computerUsedLetters.yellowLetters.length != 0) {
+        for (let i = 0; i < validWords.length; i++) {
+          for (let j = 0; j < validWords[i].split("").length; j++) {
+            if (
+              computerUsedLetters.yellowLetters.includes(
+                validWords[i].split("")[j]
+              ) &&
+              validWords[i].split("")[j] != computerUsedLetters.yellowLetters[j]
+            ) {
+              mediumValidWords.push(validWords[i]);
+              break;
+            }
+          }
+        }
+      } else {
+        mediumValidWords = [...validWords];
+      }
+
+      let hardValidWords = [];
+      if (computerUsedLetters.greenLetters.length != 0) {
+        for (let i = 0; i < mediumValidWords.length; i++) {
+          for (let j = 0; j < mediumValidWords[i].split("").length; j++) {
+            if (
+              computerUsedLetters.greenLetters.includes(
+                mediumValidWords[i].split("")[j]
+              ) &&
+              mediumValidWords[i].split("")[j] ==
+                computerUsedLetters.greenLetters[j]
+            ) {
+              hardValidWords.push(mediumValidWords[i]);
+              break;
+            }
+          }
+        }
+      } else {
+        hardValidWords = [...mediumValidWords];
+      }
+
+      const randomIndex = Math.floor(Math.random() * hardValidWords.length);
+      const hardGuess = hardValidWords[randomIndex];
+
+      console.log(target);
+      console.log(hardGuess);
+      console.log(computerUsedLetters.greenLetters);
+      console.log(validWords.length);
+      console.log(hardValidWords.length);
+      compare(hardGuess, target);
+      setGuesses([
+        ...guesses,
+        {
+          player: "computer",
+          word: hardGuess.split(""),
+          compareResult: ["gray", "gray", "gray", "gray", "gray"],
+        },
+      ]);
+
+      setUserInput([]);
+      setInputIndex(0);
+      setPlayer("user");
+      return;
+    }
   }
 
   function compare(guessStr, targetWordStr) {
