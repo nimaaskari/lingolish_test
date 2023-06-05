@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { PropTypes } from "prop-types";
 import "./MainPage.scss";
@@ -7,15 +7,17 @@ import KeyBoard from "../components/KeyBoard";
 import InputBox from "../components/InputBox";
 import GuessedWords from "../components/GuessedWords";
 import CountDown from "../components/CountDown";
+import { words } from "../data";
 
 function MainPage({ target }) {
   const [difficulty, setDifficulty] = useState("easy");
   const [playing, setPlaying] = useState(false);
   const [player, setPlayer] = useState("user");
-  const [userInput, setUserInput] = useState(["", "", "", "", ""]);
+  const [userInput, setUserInput] = useState([]);
   const [inputIndex, setInputIndex] = useState(0);
   const [countDown, setCountDown] = useState(10);
   const [guesses, setGuesses] = useState([]);
+  const [start, setStart] = useState(false);
 
   function difficultyHandler(diff) {
     setDifficulty(diff);
@@ -23,14 +25,6 @@ function MainPage({ target }) {
 
   function playingHandler(play) {
     setPlaying(play);
-  }
-
-  function playerHandler(player) {
-    setPlayer(player);
-  }
-
-  function countDownHandler(count) {
-    setCountDown(count);
   }
 
   function userInputHandler({ letter }, index) {
@@ -82,7 +76,64 @@ function MainPage({ target }) {
       ...guesses,
       { player: "user", word: userGuess, compareResult },
     ]);
+
+    setUserInput([]);
+    setInputIndex(0);
+    setCountDown(0);
   }
+
+  function mainGame() {
+    //check for timeup
+    if (countDown === 0) {
+      if (player === "user") {
+        setPlayer("computer");
+      }
+      if (player === "computer") {
+        setPlayer("user");
+      }
+      setCountDown(10);
+    }
+    //handle the time counter
+    if (player === "user") {
+      countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
+    }
+    if (player === "computer") {
+      // countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
+    }
+  }
+
+  function computerGuess(difficulty = "easy", wordsArray) {
+    const randomIndex = Math.floor(Math.random() * words.length) + 1;
+    let computerGuess = wordsArray[randomIndex];
+    let grayLetters = [];
+    let greenLetters = [];
+    let yellowLetters = [];
+    if (difficulty === "easy") {
+      compare(computerGuess, target);
+    }
+    function compare(guess, targetWord) {
+      guess = guess.split("");
+      targetWord = target.split("");
+      guess.map((guessChar, guessIndex) => {
+        targetWord.map((targetWordChar, targetWordIndex) => {
+          if (guessChar === targetWordChar && guessIndex === targetWordIndex) {
+            greenLetters.push(guessChar);
+          } else if (guessChar === targetWordChar) {
+            yellowLetters.push(guessChar);
+          } else {
+            grayLetters.push(guessChar);
+          }
+        });
+      });
+    }
+  }
+
+  useEffect(() => {
+    console.log(countDown);
+    if (playing === true) {
+      mainGame();
+    }
+  }, [countDown, player, playing]);
 
   return (
     <div className="MainPage">
@@ -93,13 +144,7 @@ function MainPage({ target }) {
       />
       <GuessedWords guesses={guesses} target={target} />
       <InputBox inputLetters={userInput} />
-      <CountDown
-        currentPlayer={player}
-        changePlayer={playerHandler}
-        isPlaying={playing}
-        countDown={countDown}
-        countDownHandler={countDownHandler}
-      />
+      <CountDown currentPlayer={player} countDown={countDown} />
       <KeyBoard
         inputHandler={userInputHandler}
         inputIndex={inputIndex}
