@@ -17,7 +17,13 @@ function MainPage({ target }) {
   const [inputIndex, setInputIndex] = useState(0);
   const [countDown, setCountDown] = useState(10);
   const [guesses, setGuesses] = useState([]);
-  const [start, setStart] = useState(false);
+  const [computerUsedLetters, setComputerUsedLetters] = useState({
+    grayLetters: [],
+    greenLetters: [],
+    yellowLetters: [],
+  });
+
+  let timeOutId;
 
   function difficultyHandler(diff) {
     setDifficulty(diff);
@@ -35,16 +41,6 @@ function MainPage({ target }) {
     }
     if (index === 4) {
       userGuessChecker(target, userInput);
-      // if (player === "user") {
-      //   setPlayer("computer");
-      // } else if (player === "computer") {
-      //   setPlayer("user");
-      // }
-      // tempInput = ["", "", "", "", ""];
-      // setUserInput(["", "", "", "", ""]);
-      // countDownHandler(10);
-      // setInputIndex(0);
-      // inputIndexHandler(0);
     }
   }
 
@@ -80,56 +76,70 @@ function MainPage({ target }) {
     setUserInput([]);
     setInputIndex(0);
     setCountDown(0);
+    setPlayer("computer");
   }
 
   function mainGame() {
-    //check for timeup
-    if (countDown === 0) {
-      if (player === "user") {
-        setPlayer("computer");
-      }
-      if (player === "computer") {
-        setPlayer("user");
-      }
-      setCountDown(10);
-    }
-    //handle the time counter
-    if (player === "user") {
-      countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
-    }
+    // if (countDown === 0) {
+    //   if (player === "user") {
+    //     setCountDown(10);
+    //     setPlayer("computer");
+    //   }
+    // }
+    // countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
     if (player === "computer") {
-      // countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000);
+      computerGuess("easy", words);
+    }
+    if (player === "user" && inputIndex === 4) {
+      userGuessChecker(target, userInput);
     }
   }
 
   function computerGuess(difficulty = "easy", wordsArray) {
     const randomIndex = Math.floor(Math.random() * words.length) + 1;
-    let computerGuess = wordsArray[randomIndex];
-    let grayLetters = [];
-    let greenLetters = [];
-    let yellowLetters = [];
-    if (difficulty === "easy") {
-      compare(computerGuess, target);
+    if (
+      computerUsedLetters.grayLetters.length === 0 &&
+      computerUsedLetters.greenLetters.length === 0 &&
+      computerUsedLetters.yellowLetters.length === 0
+    ) {
+      const computerFirstGuess = wordsArray[randomIndex];
+      compare(computerFirstGuess, target);
+      setGuesses([
+        ...guesses,
+        {
+          player: "user",
+          word: computerFirstGuess.split(""),
+          compareResult: ["gray", "gray", "gray", "gray", "gray"],
+        },
+      ]);
+
+      setUserInput([]);
+      setInputIndex(0);
+      setPlayer("user");
+      return;
     }
+    // if (difficulty === "easy") {
+    // }
     function compare(guess, targetWord) {
+      let tempComputerUsedLetters = { ...computerUsedLetters };
       guess = guess.split("");
       targetWord = target.split("");
       guess.map((guessChar, guessIndex) => {
         targetWord.map((targetWordChar, targetWordIndex) => {
           if (guessChar === targetWordChar && guessIndex === targetWordIndex) {
-            greenLetters.push(guessChar);
+            tempComputerUsedLetters.greenLetters.push(guessChar);
           } else if (guessChar === targetWordChar) {
-            yellowLetters.push(guessChar);
+            tempComputerUsedLetters.yellowLetters.push(guessChar);
           } else {
-            grayLetters.push(guessChar);
+            tempComputerUsedLetters.grayLetters.push(guessChar);
           }
         });
       });
+      setComputerUsedLetters(tempComputerUsedLetters);
     }
   }
 
   useEffect(() => {
-    console.log(countDown);
     if (playing === true) {
       mainGame();
     }
