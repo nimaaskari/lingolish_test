@@ -50,32 +50,35 @@ function MainPage({ target }) {
   }
 
   function userGuessChecker(target, userGuess) {
+    if (userGuess.join("") === target) {
+      setWinner("user");
+      console.log("you win!");
+    }
     const targetArray = target.split("");
     const compareResult = [];
     for (let i = 0; i < userGuess.length; i++) {
       let temp = "";
-      for (let j = 0; j < target.length; j++) {
-        if (userGuess[i] === target[j] && i === j) {
+      for (let j = 0; j < targetArray.length; j++) {
+        if (userGuess[i] === targetArray[j] && i === j) {
           temp = "green";
           break;
-        } else if (userGuess[i] === target[j]) {
+        } else if (userGuess[i] === targetArray[j]) {
           temp = "yellow";
         }
-
-        if (temp === "") temp = "gray";
-        compareResult.push(temp);
       }
-
-      setGuesses([
-        ...guesses,
-        { player: "user", word: userGuess, compareResult },
-      ]);
-
-      setUserInput([]);
-      setInputIndex(0);
-      setCountDown(0);
-      setPlayer("computer");
+      if (temp === "") temp = "gray";
+      compareResult.push(temp);
     }
+    console.log(compareResult);
+    setGuesses([
+      ...guesses,
+      { player: "user", word: userGuess, compareResult },
+    ]);
+
+    setUserInput([]);
+    setInputIndex(0);
+    setCountDown(0);
+    setPlayer("computer");
   }
 
   function mainGame() {
