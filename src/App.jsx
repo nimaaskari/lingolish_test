@@ -7,7 +7,7 @@ function App() {
   const [tragetWord, setTargetWord] = useState();
 
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * words.length) + 1;
+    const randomIndex = Math.floor(Math.random() * words.length);
     setTargetWord(words[randomIndex]);
   }, []);
   return <MainPage target={tragetWord} />;
