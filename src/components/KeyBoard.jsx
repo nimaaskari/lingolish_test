@@ -5,7 +5,12 @@ import Key from "./Key";
 import "./KeyBoard.scss";
 import backspaceIcon from "../assets/icons/backspace_icon.svg";
 
-function KeyBoard({ inputHandler, inputIndex, inputIndexHandler }) {
+function KeyBoard({
+  inputHandler,
+  inputIndex,
+  inputIndexHandler,
+  inputRemove,
+}) {
   const [keys, setKeys] = useState(initialKeys);
 
   return (
@@ -60,7 +65,7 @@ function KeyBoard({ inputHandler, inputIndex, inputIndexHandler }) {
             );
           }
         })}
-        <div className="backspace">
+        <div className="backspace" onClick={inputRemove}>
           <img src={backspaceIcon} alt="backspace icon" />
         </div>
       </div>
@@ -72,6 +77,7 @@ KeyBoard.propTypes = {
   inputHandler: PropTypes.func,
   inputIndex: PropTypes.number,
   inputIndexHandler: PropTypes.func,
+  inputRemove: PropTypes.func,
 };
 
 export default KeyBoard;

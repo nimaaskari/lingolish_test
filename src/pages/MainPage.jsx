@@ -34,6 +34,18 @@ function MainPage({ target }) {
     setPlaying(play);
   }
 
+  function userInputRemoveHandler() {
+    let tempInput = userInput;
+    let tempInputTrim = tempInput.join("");
+    tempInputTrim = tempInputTrim.split("");
+    tempInputTrim.pop();
+    console.log(tempInputTrim);
+    setUserInput(tempInputTrim);
+    if (inputIndex != 0) {
+      setInputIndex(inputIndex - 1);
+    }
+  }
+
   function userInputHandler({ letter }, index) {
     let tempInput = userInput;
     if (index < 5) {
@@ -347,6 +359,7 @@ function MainPage({ target }) {
         inputHandler={userInputHandler}
         inputIndex={inputIndex}
         inputIndexHandler={inputIndexHandler}
+        inputRemove={userInputRemoveHandler}
       />
     </div>
   );
