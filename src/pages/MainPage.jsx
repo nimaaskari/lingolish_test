@@ -204,34 +204,26 @@ function MainPage({ target }) {
     return validatedWords;
   }
 
-  function yellowValidator(validWords) {
+function yellowValidator(validWords) {
     let validatedWords = [];
     if (computerUsedLetters.yellowLetters.length != 0) {
       for (let i = 0; i < validWords.length; i++) {
-        let isValid = true;
-        for (let k = 0; k < computerUsedLetters.yellowLetters.length; k++) {
-          if (
-            computerUsedLetters.yellowLetters[k] != "" &&
-            !validWords[i].includes(computerUsedLetters.yellowLetters[k])
-          ) {
-            isValid = false;
-          }
-        }
         for (let j = 0; j < validWords[i].split("").length; j++) {
           if (
-            validWords[i].split("")[j] === computerUsedLetters.yellowLetters[j]
+            computerUsedLetters.yellowLetters.includes(
+              validWords[i].split("")[j]
+            ) &&
+            validWords[i].split("")[j] != computerUsedLetters.yellowLetters[j]
           ) {
-            isValid = false;
+            validatedWords.push(validWords[i]);
+            break;
           }
-        }
-        if (isValid === true) {
-          validatedWords.push(validWords[i]);
         }
       }
     } else {
       validatedWords = [...validWords];
     }
-    return validatedWords;
+    return validWords;
   }
 
   function greenValidator(validWords) {
