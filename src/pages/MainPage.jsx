@@ -204,7 +204,7 @@ function MainPage({ target }) {
     return validatedWords;
   }
 
-function yellowValidator(validWords) {
+  function yellowValidator(validWords) {
     let validatedWords = [];
     if (computerUsedLetters.yellowLetters.length != 0) {
       for (let i = 0; i < validWords.length; i++) {
@@ -223,7 +223,7 @@ function yellowValidator(validWords) {
     } else {
       validatedWords = [...validWords];
     }
-    return validWords;
+    return validatedWords;
   }
 
   function greenValidator(validWords) {
