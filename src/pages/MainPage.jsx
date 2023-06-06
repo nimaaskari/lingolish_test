@@ -208,22 +208,30 @@ function MainPage({ target }) {
     let validatedWords = [];
     if (computerUsedLetters.yellowLetters.length != 0) {
       for (let i = 0; i < validWords.length; i++) {
+        let isValid = true;
+        for (let k = 0; k < computerUsedLetters.yellowLetters.length; k++) {
+          if (
+            computerUsedLetters.yellowLetters[k] != "" &&
+            !validWords[i].includes(computerUsedLetters.yellowLetters[k])
+          ) {
+            isValid = false;
+          }
+        }
         for (let j = 0; j < validWords[i].split("").length; j++) {
           if (
-            computerUsedLetters.yellowLetters.includes(
-              validWords[i].split("")[j]
-            ) &&
-            validWords[i].split("")[j] != computerUsedLetters.yellowLetters[j]
+            validWords[i].split("")[j] === computerUsedLetters.yellowLetters[j]
           ) {
-            validatedWords.push(validWords[i]);
-            break;
+            isValid = false;
           }
+        }
+        if (isValid === true) {
+          validatedWords.push(validWords[i]);
         }
       }
     } else {
       validatedWords = [...validWords];
     }
-    return validWords;
+    return validatedWords;
   }
 
   function greenValidator(validWords) {
